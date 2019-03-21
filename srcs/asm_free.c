@@ -6,14 +6,13 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:31:29 by jucapik           #+#    #+#             */
-/*   Updated: 2019/03/21 17:22:07 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/03/21 18:07:14 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void		free_all(t_data *data, int error)
+void		free_all(t_data *data)
 {
 	free(data);
-	exit(error);	
 } //TODO finish

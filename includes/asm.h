@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/03/21 17:22:09 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/03/21 18:09:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum	e_name_or_header_boolean
 {
 	NOTHING,
 	NAME,
-	HEADER,
+	COMMENT,
 	DONE
 }				t_nh_bln;
 
@@ -76,7 +76,7 @@ struct			s_command
 
 typedef struct	s_data
 {
-	int		code_file_fd;
+	int		code_fd;
 	int		binary_file_fd;
 	char	name[PROG_NAME_LENGTH];
 	char	comment[COMMENT_LENGTH];
@@ -124,6 +124,6 @@ int			file_error(int ac, char **av);
 ** Free
 */
 
-void		free_data(t_data *data, int error);
+void		free_data(t_data *data);
 
 #endif
