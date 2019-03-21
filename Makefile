@@ -6,7 +6,7 @@
 #    By: jucapik <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 13:09:58 by jucapik           #+#    #+#              #
-#    Updated: 2019/03/20 17:27:46 by jucapik          ###   ########.fr        #
+#    Updated: 2019/03/21 14:23:45 by jucapik          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,7 +23,11 @@ INCLUDE = includes libft
 
 SRC_PATH = srcs
 
-SRCS = asm_main.c 
+SRCS =	op.c				\
+		asm_main.c			\
+		asm_error.c			\
+		asm_files.c			\
+		asm_free.c
 
 
 ##

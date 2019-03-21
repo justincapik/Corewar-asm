@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jucapik <jucapik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 13:33:54 by jucapik           #+#    #+#             */
-/*   Updated: 2019/02/01 11:06:20 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/03/21 15:24:14 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include "libft.h"
+
+static void	init(char **line, int *check, int *readret)
+{
+	*line = NULL;
+	*check = BUFF_SIZE;
+	*readret = -2;
+}
 
 static int	bufftoline(char buff[BUFF_SIZE], char **line)
 {
@@ -47,8 +54,7 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || line == NULL || BUFF_SIZE <= 0)
 		return (-1);
-	*line = NULL;
-	check = BUFF_SIZE;
+	init(line, &check, &readret);
 	while (check == BUFF_SIZE)
 	{
 		if (buff[0] == '\0')
@@ -60,7 +66,7 @@ int			get_next_line(int fd, char **line)
 		}
 		if ((i = bufftoline(buff, line)) == -1)
 			return (-1);
-		check = (buff[i] == '\0' && i != readret) ? BUFF_SIZE : i;
+		check = (buff[i] != '\n' && readret != 0) ? BUFF_SIZE : i;
 		ft_memmove(buff, buff + i + 1, BUFF_SIZE - i);
 		ft_memset(buff + BUFF_SIZE - i, '\0', i);
 	}

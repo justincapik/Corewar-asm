@@ -1,4 +1,5 @@
-.name "test1"
+    
+	   .name ""
 .comment "I hope this works"
 
 live %-1
