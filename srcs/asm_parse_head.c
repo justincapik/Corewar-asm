@@ -6,14 +6,15 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 14:31:56 by jucapik           #+#    #+#             */
-/*   Updated: 2019/03/21 18:08:59 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/10 19:02:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "asm.h"
 
-static t_bool		get_name(char *line, char name[PROG_NAME_LENGTH],
-		t_nh_bln *check)
+static t_bool		get_name(char *line, char *name, t_nh_bln *check)
 {
 	int		i;
 	int		j;
@@ -40,8 +41,7 @@ static t_bool		get_name(char *line, char name[PROG_NAME_LENGTH],
 	return (true);
 }
 
-static t_bool		get_comment(char *line, char comment[COMMENT_LENGTH],
-		t_nh_bln *check)
+static t_bool		get_comment(char *line, char *comment, t_nh_bln *check)
 {
 	int		i;
 	int		j;
@@ -80,8 +80,10 @@ t_bool				get_head(t_data *data)
 	com_size = ft_strlen(COMMENT_CMD_STRING);
 	line = NULL;
 	check = NOTHING;
-	while (check != DONE && get_next_line(data->code_fd, &line) != 0)
+	int k = 0;
+	while (check != DONE && get_next_line(data->code_file_fd, &line) != 0)
 	{
+		++k;
 		i = 0;
 		while ((line[i] == ' ' || line[i] == '\t') && line[i] != '\0')
 			++i;
@@ -93,7 +95,7 @@ t_bool				get_head(t_data *data)
 				return (false);
 			}
 		}
-		if (ft_strncmp(COMMENT_CMD_STRING, line + i, comment_size) == 0)
+		if (ft_strncmp(COMMENT_CMD_STRING, line + i, com_size) == 0)
 		{
 			if (check == COMMENT || get_comment(line, data->comment, &check)
 					== false)
@@ -103,5 +105,6 @@ t_bool				get_head(t_data *data)
 			}
 		}
 	}
+	dprintf(2, "k = %d\nname = %s\ncomment = %s\n", k, data->name, data->comment);
 	return (true);
 }

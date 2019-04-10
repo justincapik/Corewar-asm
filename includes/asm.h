@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/03/21 18:09:00 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/10 18:57:27 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ struct			s_command
 
 typedef struct	s_data
 {
-	int		code_fd;
+	int		code_file_fd;
 	int		binary_file_fd;
-	char	name[PROG_NAME_LENGTH];
-	char	comment[COMMENT_LENGTH];
+	char	*name;
+	char	*comment;
 	int		size; //in bytes
 	t_cmd	*cmds;
 }				t_data;
@@ -107,6 +107,18 @@ t_data		*create_data(int ac, char **av);
 */
 
 t_bool		get_head(t_data *data);
+
+	/*
+	** verifing lines
+	*/
+
+
+
+	/*
+	** storing lines
+	*/
+
+
 
 /*
 ** Writing

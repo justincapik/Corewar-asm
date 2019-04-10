@@ -6,13 +6,18 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:31:29 by jucapik           #+#    #+#             */
-/*   Updated: 2019/03/21 18:07:14 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/10 18:27:45 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void		free_all(t_data *data)
+void		free_data(t_data *data)
 {
+	if (data->name != NULL)
+		free(data->name);
+	if (data->comment != NULL)
+		free(data->comment);
 	free(data);
-} //TODO finish
+	//free_cmds(data->cmds);
+}
