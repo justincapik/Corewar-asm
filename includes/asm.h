@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/10 18:57:27 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/17 14:29:49 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,23 @@ typedef enum	e_name_or_header_boolean
 
 typedef enum	e_command_type
 {
-	FORK,
-	LFORK,
-	ST,
-	STI,
-	LD,
-	LDI,
-	LLD,
-	LLDI,
-	OR,
-	XOR,
-	AND,
-	SUB,
-	AFF,
-	ZJMP
+	LIVE = 0,
+	LD = 1,
+	ST = 2,
+	ADD = 3,
+	SUB = 4,
+	AND = 5,
+	OR = 6,
+	XOR = 7,
+	ZJMP = 8,
+	LDI = 9,
+	STI = 10,
+	FORK = 11,
+	LLD = 12,
+	LLDI = 13,
+	LFORK = 14,
+	AFF = 15,
+	CMD_ERROR = 16
 }				t_cmd_type;
 
 typedef enum	e_variable_type
@@ -61,28 +64,23 @@ typedef enum	e_variable_type
 	PTR //%:label type
 }				t_var_type;
 
-typedef struct	s_command t_cmd;
-struct			s_command
+typedef struct s_one_token t_onet;
+struct			s_one_token
 {
-	t_cmd_type	cmd;
-	t_var_type	var1;
-	int			var1_val;
-	t_var_type	var2;
-	int			var2_val;
-	t_var_type	var3;
-	int			var3_val;
-	t_cmd		*next;
+	t_var_type	type;
+	char		*str;
+	int			val;
+	t_onet		*next;
 };
 
-typedef struct	s_data
+typedef struct s_tokens t_tokens;
+struct			s_tokens
 {
-	int		code_file_fd;
-	int		binary_file_fd;
-	char	*name;
-	char	*comment;
-	int		size; //in bytes
-	t_cmd	*cmds;
-}				t_data;
+	t_cmd_type	cmd;
+	char		*label; // NULL if doesn't exist
+	t_onet		*allt;
+	t_tokens	*next;
+};
 
 typedef struct	s_op
 {
@@ -96,46 +94,57 @@ typedef struct	s_op
 	t_bool		dir_type; // 0 if none or D2, 1 if D4
 }				t_op;
 
-/*
-** Initialization
-*/
+typedef struct	s_data
+{
+	int			code_file_fd;
+	int			binary_file_fd;
+	char		*name;
+	char		*comment;
+	int			size; //in bytes
+	t_tokens	*tokens;
+	t_op		*op_tab;
+}				t_data;
 
+/*
+ ** Initialization
+ */
+
+t_onet		*create_onet(void);
 t_data		*create_data(int ac, char **av);
+t_tokens	*create_tokens(void);
 
 /*
-** Parsing
-*/
+ ** Parsing
+ */
 
 t_bool		get_head(t_data *data);
+t_tokens	*read_lines(t_data *data);
+t_bool		parsing(t_tokens *tok);
 
-	/*
-	** verifing lines
-	*/
-
-
-
-	/*
-	** storing lines
-	*/
+/*
+ ** Writing
+ */
 
 
 
 /*
-** Writing
-*/
-
-
-
-/*
-** Errors
-*/
+ ** Errors
+ */
 
 int			file_error(int ac, char **av);
 
 /*
-** Free
-*/
+ ** Free
+ */
 
 void		free_data(t_data *data);
+void		free_tokens(t_tokens *t);
+void		free_onet(t_onet *base);
+
+/*
+** Global Variables
+*/
+
+extern t_op op_tab[17];
 
 #endif

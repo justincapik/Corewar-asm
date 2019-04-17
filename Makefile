@@ -6,13 +6,13 @@
 #    By: jucapik <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 13:09:58 by jucapik           #+#    #+#              #
-#    Updated: 2019/04/10 18:14:49 by jucapik          ###   ########.fr        #
+#    Updated: 2019/04/17 10:38:51 by jucapik          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME		=	asm
 
-CC			=	gcc
+CC			=	gcc -g
 
 
 ##
@@ -26,9 +26,11 @@ SRC_PATH = srcs
 SRCS =	op.c				\
 		asm_main.c			\
 		asm_error.c			\
-		asm_data.c			\
+		asm_malloc.c		\
 		asm_free.c			\
-		asm_parse_head.c
+		asm_parse_head.c	\
+		asm_read_lines.c	\
+		asm_parsing.c
 
 
 ##
