@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 13:38:35 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/19 09:54:14 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ int		main(int ac, char **av)
 		return (-1);
 	if ((data = create_data(ac, av)) == NULL)
 		return (-1);
-
  	if (get_head(data) != true)
 	{
 		free_data(data);
 		return (-1);
 	}
-
-	data->tokens = read_lines(data);
+	if ((data->tokens = read_lines(data)) == NULL)
+	{
+		free_data(data);
+		return (1);
+	}
 	//ligne par ligne faire
 	//	la tokenisation (a voir comment enregistrer),
 	//	faire les messages d'erreur a l'erreur
@@ -45,10 +47,30 @@ int		main(int ac, char **av)
 	dprintf(2, "comment => \"%s\"\n", data->comment);
 	while (tok != NULL)
 	{
-		onet = tok->allt;
+		dprintf(2, "%d ", tok->cmd);
+		if (tok->label != NULL)
+		{
+			dprintf(2, "(%s) ", tok->label);
+			onet = tok->allt->next;
+		}
+		else
+			onet = tok->allt;
 		while (onet != NULL)
 		{
-			dprintf(2, "-%s-", onet->str);
+			dprintf(2, " ");
+			if (onet->type & T_LAB)
+				dprintf(2, "L->");
+			if (onet->type & T_REG)
+				dprintf(2, "REG:");
+			else if (onet->type & T_IND)
+				dprintf(2, "IDX:");
+			else if (onet->type & T_DIR)
+				dprintf(2, "DIR:");
+			else if (onet->type & T_CMD)
+				dprintf(2, "CMD:");
+			else if (onet->type & T_NO_TYPE)
+				dprintf(2, "NO_TYPE:");
+			dprintf(2, "%s ", onet->str);
 			onet = onet->next;
 		}
 		dprintf(2, "\n");

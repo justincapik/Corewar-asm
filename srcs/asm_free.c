@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:31:29 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 13:43:06 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/18 09:39:40 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void		free_tokens(t_tokens *base)
 	while (cur != NULL)
 	{
 		cur = base->next;
-		if (base->label != NULL)
-			free(base->label);
 		if (base->allt != NULL)
 			free_onet(base->allt);
 		free(base);

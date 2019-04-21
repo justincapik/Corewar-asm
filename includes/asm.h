@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 14:29:49 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/19 10:53:47 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <fcntl.h>
 # include "op.h"
 # include "libft.h"
+
+
+
+#include <stdio.h>
+
+# define T_CMD			16
+# define T_NO_TYPE		32
 
 typedef enum	e_boolean
 {
@@ -35,6 +42,8 @@ typedef enum	e_name_or_header_boolean
 
 typedef enum	e_command_type
 {
+	CMD_ERROR = -2,
+	NONE = -1,
 	LIVE = 0,
 	LD = 1,
 	ST = 2,
@@ -50,28 +59,10 @@ typedef enum	e_command_type
 	LLD = 12,
 	LLDI = 13,
 	LFORK = 14,
-	AFF = 15,
-	CMD_ERROR = 16
+	AFF = 15
 }				t_cmd_type;
 
-typedef enum	e_variable_type
-{
-	REG,
-	IDX,
-	D2,
-	D4,
-	DUKNOWN,
-	PTR //%:label type
-}				t_var_type;
-
 typedef struct s_one_token t_onet;
-struct			s_one_token
-{
-	t_var_type	type;
-	char		*str;
-	int			val;
-	t_onet		*next;
-};
 
 typedef struct s_tokens t_tokens;
 struct			s_tokens
@@ -80,6 +71,17 @@ struct			s_tokens
 	char		*label; // NULL if doesn't exist
 	t_onet		*allt;
 	t_tokens	*next;
+};
+
+typedef int		t_var_type;
+
+struct			s_one_token
+{
+	t_var_type	type;
+	char		*str;
+	int			val;
+	t_tokens	*ptr_to_label;
+	t_onet		*next;
 };
 
 typedef struct	s_op
@@ -103,39 +105,44 @@ typedef struct	s_data
 	int			size; //in bytes
 	t_tokens	*tokens;
 	t_op		*op_tab;
+	int			line_nb;
 }				t_data;
 
 /*
- ** Initialization
- */
+** Initialization
+*/
 
 t_onet		*create_onet(void);
 t_data		*create_data(int ac, char **av);
 t_tokens	*create_tokens(void);
 
 /*
- ** Parsing
- */
+** Parsing
+*/
 
 t_bool		get_head(t_data *data);
 t_tokens	*read_lines(t_data *data);
-t_bool		parsing(t_tokens *tok);
+t_bool		parsing(t_tokens *tok, int line_nb);
+t_bool		syntax_analysis(t_onet *onet, int line_nb);
+t_bool		set_index_label(t_onet *onet, int line_nb);
+t_bool		set_direct_label(t_onet *onet, int line_nb);
 
 /*
- ** Writing
- */
+** Writing
+*/
 
 
 
 /*
- ** Errors
- */
+** Errors
+*/
 
 int			file_error(int ac, char **av);
+void		error_message(char *str, int line_nb);
 
 /*
- ** Free
- */
+** Free
+*/
 
 void		free_data(t_data *data);
 void		free_tokens(t_tokens *t);

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 13:16:13 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/18 10:33:28 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,20 @@ t_tokens		*read_lines(t_data *data)
 	cur = base;
 	while (get_next_line(data->code_file_fd, &line) != 0)
 	{
-		dprintf(2, "%s\n", line);
 		if ((tmp = tokenize(line)) != NULL)
 		{
-			if (parsing(cur) == error)
+			if (parsing(tmp, data->line_nb) == error)
 			{
-			   free_tokens(base);
-			   return (NULL);
+				free_tokens(base);
+				free_tokens(tmp);
+				free(line);
+				return (NULL);
 			}
 			cur->next = tmp;
 			cur = cur->next;
 		}
 		free(line);
+		++(data->line_nb);
 	}
 	return (base);
 }

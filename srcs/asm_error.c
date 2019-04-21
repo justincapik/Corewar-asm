@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:26:09 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 10:56:13 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/19 09:41:02 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include <stdio.h>
 
 #include "asm.h"
+
+void	error_message(char *str, int line_nb)
+{
+	ft_putstr(str);
+	ft_putstr(" on line ");
+	ft_putnbr(line_nb);
+	ft_putchar('\n');
+}
 
 int		file_error(int ac, char **av)
 {

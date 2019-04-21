@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:16:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/17 13:42:18 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/19 10:24:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ t_onet		*create_onet(void)
 
 	if ((o = (t_onet *)malloc(sizeof(t_onet))) == NULL)
 		return (NULL);
+	o->type = T_NO_TYPE;
 	o->next = NULL;
 	o->str = NULL;
+	o->ptr_to_label = NULL;
 	return (o);
 }
 
@@ -29,7 +31,7 @@ t_tokens	*create_tokens(void)
 
 	if ((t = (t_tokens *)malloc(sizeof(t_tokens))) == NULL)
 		return (NULL);
-	t->cmd = CMD_ERROR;
+	t->cmd = NONE;
 	t->label = NULL;
 	t->allt = NULL;
 	t->next = NULL;
@@ -39,13 +41,11 @@ t_tokens	*create_tokens(void)
 t_data		*create_data(int ac, char **av)
 {
 	t_data		*data;
+	int			size;
 
 	if ((data = (t_data *)malloc(sizeof(t_data))) == NULL)
-	{
-		write(1, "Error: malloc failed\n",
-				ft_strlen("Error, malloc failed\n"));
 		return (NULL);
-	}
+	data->line_nb = 0;
 	data->name = NULL;
 	data->comment = NULL;
 	data->tokens = NULL;
@@ -59,9 +59,17 @@ t_data		*create_data(int ac, char **av)
 		free_data(data);
 		return (NULL);
 	}
+	size = ft_strlen(av[ac - 1]);
+	if (av[ac - 1][size - 1] != 's' || av[ac - 1][size - 2] != '.')
+	{
+		write(1, "ERROR: invalid file name\n",
+				ft_strlen("ERROR: invalid file name\n"));
+		free_data(data);
+		return (NULL);
+	}
 	if ((data->code_file_fd = open(av[ac - 1], O_RDONLY)) <= -1)
 	{
-		write(1, "Error: failed to open file\n",
+		write(1, "ERROR: failed to open file\n",
 				ft_strlen("Error, failed to open file\n"));
 		free_data(data);
 		return (NULL);
