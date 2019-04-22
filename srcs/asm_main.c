@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 11:01:50 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 18:16:23 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int		main(int ac, char **av)
 		free_data(data);
 		return (-1);
 	}
+	data->size = get_size_prog(data->tokens);
+	if (write_file(data) == error)
+	{
+		free_data(data);
+		return (-1);
+	}
 	//ligne par ligne faire
 	//	la tokenisation (a voir comment enregistrer),
 	//	faire les messages d'erreur a l'erreur
@@ -50,9 +56,10 @@ int		main(int ac, char **av)
 	tok = data->tokens;
 	dprintf(2, "name => \"%s\"\n", data->name);
 	dprintf(2, "comment => \"%s\"\n", data->comment);
+	dprintf(2, "size => %d bytes\n", data->size);
 	while (tok != NULL)
 	{
-		dprintf(2, "%d ", tok->cmd);
+		dprintf(2, "%d ", tok->size);
 		if (tok->label != NULL)
 		{
 			dprintf(2, "(%s) ", tok->label);

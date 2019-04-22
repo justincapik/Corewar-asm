@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 13:02:43 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 16:54:55 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,8 @@ t_bool			parsing(t_tokens *tok, int line_nb)
 		onet = onet->next;
 		++arg;
 	}
-	if (arg != op_tab[tok->cmd].nb_arg)
-	{
-		error_message("ERROR: invalide number of arguments", line_nb);
+	if (check_errors(tok, arg, line_nb) != true)
 		return (error);
-	}
-	tok->line_nb = line_nb;
+	get_token_size(tok);
 	return (true);
 }

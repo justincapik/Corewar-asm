@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 11:50:50 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 18:00:53 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_tokens t_tokens;
 struct			s_tokens
 {
 	t_cmd_type	cmd;
+	int			size;
+	int			mem_addr;
 	int			line_nb;
 	char		*label; // NULL if doesn't exist
 	t_onet		*allt;
@@ -128,12 +130,15 @@ t_bool		syntax_analysis(t_onet *onet, int line_nb);
 t_bool		set_index_label(t_onet *onet, int line_nb);
 t_bool		set_direct_label(t_onet *onet, int line_nb);
 t_bool		connect_labels(t_tokens *base);
+t_bool		check_errors(t_tokens *tok, int arg, int line_nb);
 
 /*
 ** Writing
 */
 
-
+t_bool		write_file(t_data *data);
+void		get_token_size(t_tokens *tok);
+int			get_size_prog(t_tokens *base);
 
 /*
 ** Errors

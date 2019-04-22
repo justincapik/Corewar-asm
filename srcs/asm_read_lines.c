@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/18 10:33:28 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 16:53:45 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,31 @@ static t_tokens	*tokenize(char *line)
 	return (tok);
 }
 
+static t_tokens	*get_base(t_data *data)
+{
+	char		*line;
+	t_tokens	*base;
+
+	line = NULL;
+	base = NULL;
+	while (base == NULL
+			&& get_next_line(data->code_file_fd, &line) != 0)
+	{
+		if ((base = tokenize(line)) != NULL)
+		{
+			if (parsing(base, data->line_nb) == error)
+			{
+				free_tokens(base);
+				free(line);
+				return (NULL);
+			}
+		}
+		free(line);
+		++(data->line_nb);
+	}
+	return (base);
+}
+
 t_tokens		*read_lines(t_data *data)
 {
 	char		*line;
@@ -73,7 +98,7 @@ t_tokens		*read_lines(t_data *data)
 	t_tokens	*tmp;
 
 	line = NULL;
-	if ((base = create_tokens()) == NULL)
+	if ((base = get_base(data)) == NULL)
 		return (NULL);
 	cur = base;
 	while (get_next_line(data->code_file_fd, &line) != 0)
@@ -83,7 +108,6 @@ t_tokens		*read_lines(t_data *data)
 			if (parsing(tmp, data->line_nb) == error)
 			{
 				free_tokens(base);
-				free_tokens(tmp);
 				free(line);
 				return (NULL);
 			}

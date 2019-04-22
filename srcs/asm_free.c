@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:31:29 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/18 09:39:40 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 15:59:49 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ void		free_tokens(t_tokens *base)
 
 void		free_data(t_data *data)
 {
-	
-	if (data->name != NULL)
-		free(data->name);
-	if (data->comment != NULL)
-		free(data->comment);
-	if (data->tokens != NULL)
-		free_tokens(data->tokens);
-	free(data);
+	if (data != NULL)
+	{
+		if (data->name != NULL)
+			free(data->name);
+		if (data->comment != NULL)
+			free(data->comment);
+		if (data->tokens != NULL)
+			free_tokens(data->tokens);
+		free(data);
+	}
 }
