@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/19 12:00:24 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 13:02:43 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void		check_label(t_tokens *tok, int *arg)
 	onet = tok->allt;
 	str = onet->str;
 	size = ft_strlen(str);
-	if (str[size - 1] == ':')
+	if (str[size - 1] == LABEL_CHAR)
 	{
 		onet->type = T_LAB;
 		tok->label = str;
@@ -82,18 +82,16 @@ t_bool			parsing(t_tokens *tok, int line_nb)
 	arg = 0;
 	while (onet != NULL)
 	{
-		if (syntax_analysis(onet, line_nb) == error
-				|| check_label_type(onet, line_nb)
+		if (syntax_analysis(onet, line_nb) == error)
 			return (error);
 		onet = onet->next;
 		++arg;
 	}
 	if (arg != op_tab[tok->cmd].nb_arg)
 	{
-		ft_putstr("ERROR: too many arguments on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide number of arguments", line_nb);
 		return (error);
 	}
+	tok->line_nb = line_nb;
 	return (true);
 }

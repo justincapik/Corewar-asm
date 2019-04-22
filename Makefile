@@ -6,7 +6,7 @@
 #    By: jucapik <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 13:09:58 by jucapik           #+#    #+#              #
-#    Updated: 2019/04/19 10:33:15 by jucapik          ###   ########.fr        #
+#    Updated: 2019/04/22 10:16:53 by jucapik          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -32,7 +32,8 @@ SRCS =	op.c				\
 		asm_read_lines.c	\
 		asm_parsing.c		\
 		asm_stx_analysis.c	\
-		asm_stx_labels.c
+		asm_stx_labels.c	\
+		asm_label_con.c
 
 
 ##

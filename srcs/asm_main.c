@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/19 09:54:14 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/22 11:01:50 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ int		main(int ac, char **av)
 	if ((data->tokens = read_lines(data)) == NULL)
 	{
 		free_data(data);
-		return (1);
+		return (-1);
+	}
+	if (connect_labels(data->tokens) != true)
+	{
+		free_data(data);
+		return (-1);
 	}
 	//ligne par ligne faire
 	//	la tokenisation (a voir comment enregistrer),
@@ -59,7 +64,7 @@ int		main(int ac, char **av)
 		{
 			dprintf(2, " ");
 			if (onet->type & T_LAB)
-				dprintf(2, "L->");
+				dprintf(2, "L->(%s)->", onet->ptr_to_label->label);
 			if (onet->type & T_REG)
 				dprintf(2, "REG:");
 			else if (onet->type & T_IND)
