@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 18:16:23 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/23 13:14:16 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		main(int ac, char **av)
 		return (-1);
 	}
 	data->size = get_size_prog(data->tokens);
-	if (write_file(data) == error)
+	if (write_file(data, av[ac - 1]) == error)
 	{
 		free_data(data);
 		return (-1);

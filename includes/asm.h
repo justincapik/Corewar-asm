@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 18:00:53 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/23 15:48:19 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 
 # define T_CMD			16
 # define T_NO_TYPE		32
+
+# define WRITE_BUFF		100
 
 typedef enum	e_boolean
 {
@@ -62,6 +64,12 @@ typedef enum	e_command_type
 	AFF = 15
 }				t_cmd_type;
 
+typedef union	u_big_edian_conv
+{
+	char	oct[4];
+	int		nb;
+}				t_bec;	
+
 typedef struct s_one_token t_onet;
 
 typedef struct s_tokens t_tokens;
@@ -96,7 +104,7 @@ typedef struct	s_op
 	int			cycle_count;
 	char		*comment;
 	t_bool		OCP; // 0 if not used, 1 if yes
-	t_bool		dir_type; // 0 if none or D2, 1 if D4
+	t_bool		dir_type; // 0 if D4, 1 if D2
 }				t_op;
 
 typedef struct	s_data
@@ -136,9 +144,12 @@ t_bool		check_errors(t_tokens *tok, int arg, int line_nb);
 ** Writing
 */
 
-t_bool		write_file(t_data *data);
 void		get_token_size(t_tokens *tok);
 int			get_size_prog(t_tokens *base);
+t_bool		write_file(t_data *data, char *filename);
+void		write_header(t_data *data);
+void		write_int(int nb, int fd);
+void		write_line_code(t_tokens *tok, int fd);
 
 /*
 ** Errors
