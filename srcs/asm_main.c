@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/23 13:14:16 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 11:37:53 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int		main(int ac, char **av)
 		free_data(data);
 		return (-1);
 	}
+	data->size = get_size_prog(data->tokens);
 	if (connect_labels(data->tokens) != true)
 	{
 		free_data(data);
 		return (-1);
 	}
-	data->size = get_size_prog(data->tokens);
 	if (write_file(data, av[ac - 1]) == error)
 	{
 		free_data(data);
@@ -51,6 +51,7 @@ int		main(int ac, char **av)
 	//	analyse syntaxique des tokens, faire les messages d'erreur a l'erreur
 	//appliquer les bonnes adresses et/ou pointeurs pour les %:label
 	//transcrire ligne par ligne dans le fichier
+	/*
 	t_tokens	*tok;
 	t_onet		*onet;
 	tok = data->tokens;
@@ -88,6 +89,7 @@ int		main(int ac, char **av)
 		dprintf(2, "\n");
 		tok = tok->next;
 	}
+	*/
 	free_data(data);
 	return (0);
 }

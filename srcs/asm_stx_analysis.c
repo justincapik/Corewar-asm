@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 11:19:45 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/19 10:54:07 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 11:23:30 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_bool	set_index_nolabel(t_onet *onet, int line_nb)
 
 	i = 0;
 	onet->type = T_IND;
-	onet->val = ft_atoi((onet->str) + (++i));
+	onet->val = ft_atoi((onet->str) + i);
 	if (onet->str[i] == '-' || onet->str[i] == '+')
 		++i;
 	while (onet->str[i] >= '0' && onet->str[i] <= '9')

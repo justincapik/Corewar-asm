@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:56:23 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 13:02:44 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 11:37:24 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ static t_tokens	*find_label(t_tokens *base, char *label)
 	return (NULL);
 }
 
+static int		get_label_val(t_tokens *cur, t_onet *onet)
+{
+	t_tokens *labt;
+
+	labt = onet->ptr_to_label;
+	return (labt->mem_addr - cur->mem_addr);
+}
+
 t_bool			connect_labels(t_tokens *base)
 {
 	t_tokens	*cur;
@@ -67,6 +75,7 @@ t_bool			connect_labels(t_tokens *base)
 					error_message("ERROR: invalide label name", cur->line_nb); 
 					return (error);
 				}
+				onet->val = get_label_val(cur, onet);
 			}
 			onet = onet->next;
 		}
