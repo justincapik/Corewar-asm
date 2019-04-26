@@ -6,7 +6,7 @@
 #    By: jucapik <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/12 14:23:08 by jucapik           #+#    #+#              #
-#    Updated: 2019/02/10 15:19:04 by jucapik          ###   ########.fr        #
+#    Updated: 2019/04/25 09:45:27 by jucapik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS	=		ft_memalloc.c ft_bzero.c ft_memmove.c ft_memcpy.c \
 				ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
 				ft_strlen_s.c ft_strcpy_s.c ft_memccpy_s.c ft_memset_s.c \
 				ft_lstaddend.c ft_strndup.c ft_abs.c get_next_line.c \
-				ft_strnjoin.c ft_lstsize.c ft_strinsert.c ft_pow.c
+				ft_strnjoin.c ft_lstsize.c ft_strinsert.c ft_pow.c \
+				ft_putnstr.c
 
 BNRY	= $(SRCS:.c=.o)
 

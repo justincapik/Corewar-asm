@@ -6,18 +6,15 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 16:53:45 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/25 16:32:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-#include <stdio.h>
 
 #include "asm.h"
 
 static t_onet	*get_onet(char *line, int *i)
 {
-	int 	j;
+	int		j;
 	t_onet	*onet;
 
 	if ((onet = create_onet()) == NULL)
@@ -95,23 +92,23 @@ t_tokens		*read_lines(t_data *data)
 	char		*line;
 	t_tokens	*base;
 	t_tokens	*cur;
-	t_tokens	*tmp;
 
 	line = NULL;
+	ft_putnbr(data->line_nb);
+	ft_putchar('\n');	
 	if ((base = get_base(data)) == NULL)
 		return (NULL);
 	cur = base;
 	while (get_next_line(data->code_file_fd, &line) != 0)
 	{
-		if ((tmp = tokenize(line)) != NULL)
+		if ((cur->next = tokenize(line)) != NULL)
 		{
-			if (parsing(tmp, data->line_nb) == error)
+			if (parsing(cur->next, data->line_nb) == error)
 			{
 				free_tokens(base);
 				free(line);
 				return (NULL);
 			}
-			cur->next = tmp;
 			cur = cur->next;
 		}
 		free(line);

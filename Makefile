@@ -6,7 +6,7 @@
 #    By: jucapik <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/04 13:09:58 by jucapik           #+#    #+#              #
-#    Updated: 2019/04/23 15:51:17 by jucapik          ###   ########.fr        #
+#    Updated: 2019/04/25 16:25:14 by jucapik          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -29,6 +29,7 @@ SRCS =	op.c					\
 		asm_malloc.c			\
 		asm_free.c				\
 		asm_parse_head.c		\
+		asm_parse_head_helper.c	\
 		asm_read_lines.c		\
 		asm_parsing.c			\
 		asm_stx_analysis.c		\
@@ -39,7 +40,8 @@ SRCS =	op.c					\
 		asm_binary_writing.c	\
 		asm_write_header.c		\
 		asm_edian_converter.c	\
-		asm_write_code.c
+		asm_write_code.c		\
+		asm_verbose.c
 
 
 ##

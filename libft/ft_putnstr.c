@@ -1,41 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_edian_converter.c                              :+:      :+:    :+:   */
+/*   ft_putnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/23 14:32:34 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 14:13:58 by jucapik          ###   ########.fr       */
+/*   Created: 2019/04/25 09:43:01 by jucapik           #+#    #+#             */
+/*   Updated: 2019/04/25 09:44:39 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-void	write_int(int nb, int fd)
+void		ft_putnstr(char *str, size_t n)
 {
-	t_bec4	bec;
-	int		i;
-
-	bec.nb = nb;
-	i = 3;
-	while (i >= 0)
-		write(fd, &(bec.oct[i--]), 1);
-}
-
-void	write_int_2b(int nb, int fd)
-{
-	t_bec4	bec;
-
-	bec.nb = nb % 0xffff;
-	write(fd, &(bec.oct[1]), 1);
-	write(fd, &(bec.oct[0]), 1);
-}
-
-void	write_int_1b(int nb, int fd)
-{
-	char	c;
-
-	c = nb % 0xff;
-	write(fd, &c, 1);
+	if (n > ft_strlen(str))
+		ft_putstr(str);
+	else
+		write(1, str, n);
 }

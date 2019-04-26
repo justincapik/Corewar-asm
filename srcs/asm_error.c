@@ -6,14 +6,20 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:26:09 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/19 09:41:02 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/25 14:41:53 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>
-
 #include "asm.h"
+
+void	size_error_message(int max_size, char *type)
+{
+	ft_putstr("ERROR: invalude syntax on ");
+	ft_putstr(type);
+	ft_putstr(" line (max length ");
+	ft_putnbr(max_size);
+	ft_putstr(")\n");
+}
 
 void	error_message(char *str, int line_nb)
 {

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:25:14 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/19 10:53:20 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 14:36:45 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool			set_index_label(t_onet *onet, int line_nb)
 {
-	int     i;
+	int		i;
 
 	i = 0;
 	onet->type = T_IND | T_LAB;
@@ -34,7 +34,7 @@ t_bool			set_index_label(t_onet *onet, int line_nb)
 
 t_bool			set_direct_label(t_onet *onet, int line_nb)
 {
-	int     i;
+	int		i;
 
 	i = 0;
 	onet->type = T_DIR | T_LAB;

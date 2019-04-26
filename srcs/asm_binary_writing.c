@@ -6,13 +6,13 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 17:50:40 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 12:58:29 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 14:28:25 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static char		*create_file(t_data *data, char	*filename)
+static char		*create_file(t_data *data, char *filename)
 {
 	char		*bnryname;
 	int			size;
@@ -23,7 +23,8 @@ static char		*create_file(t_data *data, char	*filename)
 	bnryname[size - 1] = 'r';
 	bnryname[size - 2] = 'o';
 	bnryname[size - 3] = 'c';
-	if ((data->binary_file_fd = open(bnryname, O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
+	if ((data->binary_file_fd = open(bnryname,
+					O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
 	{
 		ft_putendl("ERROR: failed to create .cor file");
 		free(bnryname);

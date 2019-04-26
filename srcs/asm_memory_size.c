@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:08:32 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/23 14:09:26 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 14:49:57 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		get_token_size(t_tokens *tok)
 	onet = tok->allt->next;
 	if (tok->label != NULL)
 		onet = onet->next;
-	if (op_tab[tok->cmd].OCP == 1)
+	if (g_op_tab[tok->cmd].ocp == 1)
 		++size;
 	while (onet != NULL)
 	{
@@ -43,7 +43,7 @@ void		get_token_size(t_tokens *tok)
 			size += 2;
 		else if (onet->type & T_DIR)
 		{
-			if (op_tab[tok->cmd].dir_type != 0)
+			if (g_op_tab[tok->cmd].dir_type != 0)
 				size += 2;
 			else
 				size += 4;

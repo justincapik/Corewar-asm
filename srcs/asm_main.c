@@ -6,15 +6,29 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 11:37:53 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/25 18:58:43 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>
-
 #include "asm.h"
 
+char	*get_file(int ac, char **av)
+{
+	char	*str;
+	int		size;
+	int		i;
+
+	i = 1;
+	str = NULL;
+	while (i < ac)
+	{
+		size = ft_strlen(av[i]);
+		if (av[i][size - 1] == 's' && av[i][size - 2] == '.')
+			str = av[i];
+		++i;
+	}
+	return (str);
+}
 
 int		main(int ac, char **av)
 {
@@ -24,72 +38,46 @@ int		main(int ac, char **av)
 		return (-1);
 	if ((data = create_data(ac, av)) == NULL)
 		return (-1);
- 	if (get_head(data) != true)
+	if (get_head(data) != true)
 	{
 		free_data(data);
 		return (-1);
 	}
+	write(1, "1\n", 2);
 	if ((data->tokens = read_lines(data)) == NULL)
 	{
 		free_data(data);
 		return (-1);
 	}
+	write(1, "2\n", 2);
 	data->size = get_size_prog(data->tokens);
+	write(1, "3\n", 2);
 	if (connect_labels(data->tokens) != true)
 	{
 		free_data(data);
 		return (-1);
 	}
-	if (write_file(data, av[ac - 1]) == error)
+	write(1, "4\n", 2);
+	if (write_file(data, get_file(ac, av)) == error)
 	{
 		free_data(data);
 		return (-1);
 	}
-	//ligne par ligne faire
-	//	la tokenisation (a voir comment enregistrer),
-	//	faire les messages d'erreur a l'erreur
-	//	analyse syntaxique des tokens, faire les messages d'erreur a l'erreur
-	//appliquer les bonnes adresses et/ou pointeurs pour les %:label
-	//transcrire ligne par ligne dans le fichier
-	/*
-	t_tokens	*tok;
-	t_onet		*onet;
-	tok = data->tokens;
-	dprintf(2, "name => \"%s\"\n", data->name);
-	dprintf(2, "comment => \"%s\"\n", data->comment);
-	dprintf(2, "size => %d bytes\n", data->size);
-	while (tok != NULL)
-	{
-		dprintf(2, "%d ", tok->size);
-		if (tok->label != NULL)
-		{
-			dprintf(2, "(%s) ", tok->label);
-			onet = tok->allt->next;
-		}
-		else
-			onet = tok->allt;
-		while (onet != NULL)
-		{
-			dprintf(2, " ");
-			if (onet->type & T_LAB)
-				dprintf(2, "L->(%s)->", onet->ptr_to_label->label);
-			if (onet->type & T_REG)
-				dprintf(2, "REG:");
-			else if (onet->type & T_IND)
-				dprintf(2, "IDX:");
-			else if (onet->type & T_DIR)
-				dprintf(2, "DIR:");
-			else if (onet->type & T_CMD)
-				dprintf(2, "CMD:");
-			else if (onet->type & T_NO_TYPE)
-				dprintf(2, "NO_TYPE:");
-			dprintf(2, "%s ", onet->str);
-			onet = onet->next;
-		}
-		dprintf(2, "\n");
-		tok = tok->next;
-	}
-	*/
+	write(1, "5\n", 2);
+	verbose(data, ac, av);
 	free_data(data);
 	return (0);
 }
+
+//TODO
+// In parsing:
+// 		- make taking label independant from the rest
+// 		- always appends to the next command (?) (can be done in connections?)
+// 		- if at end, make special case?
+// In connecting labels:
+// 		- change find_label() to look for the next token of code after
+// 			after finding the label
+// In mem_size:
+// 		- check if there is not just the label
+// In writing:
+// 		- don't write if it's just a label

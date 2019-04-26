@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 10:50:58 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/25 16:21:17 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 # include <fcntl.h>
 # include "op.h"
 # include "libft.h"
-
-
-
-#include <stdio.h>
 
 # define T_CMD			16
 # define T_NO_TYPE		32
@@ -37,7 +33,11 @@ typedef enum	e_boolean
 typedef enum	e_name_or_header_boolean
 {
 	NOTHING,
+	ONGOING_NAME,
+	ONGOING_NAME_CD,
 	NAME,
+	ONGOING_COMMENT,
+	ONGOING_COMMENT_ND,
 	COMMENT,
 	DONE
 }				t_nh_bln;
@@ -68,24 +68,24 @@ typedef union	u_big_edian_conv_4_bytes
 {
 	char	oct[4];
 	int		nb;
-}				t_bec4;	
+}				t_bec4;
 
 typedef union	u_big_edian_conv_2_bytes
 {
 	char	oct[2];
 	int		nb;
-}				t_bec2;	
+}				t_bec2;
 
-typedef struct s_one_token t_onet;
+typedef struct s_one_token	t_onet;
 
-typedef struct s_tokens t_tokens;
+typedef struct s_tokens	t_tokens;
 struct			s_tokens
 {
 	t_cmd_type	cmd;
 	int			size;
 	int			mem_addr;
 	int			line_nb;
-	char		*label; // NULL if doesn't exist
+	char		*label;
 	t_onet		*allt;
 	t_tokens	*next;
 };
@@ -97,7 +97,7 @@ struct			s_one_token
 	t_var_type	type;
 	char		*str;
 	int			val;
-	t_tokens	*ptr_to_label; //NULL if no pointer
+	t_tokens	*ptr_to_label;
 	t_onet		*next;
 };
 
@@ -109,8 +109,8 @@ typedef struct	s_op
 	int			id;
 	int			cycle_count;
 	char		*comment;
-	t_bool		OCP; // 0 if not used, 1 if yes
-	t_bool		dir_type; // 0 if D4, 1 if D2
+	t_bool		ocp;
+	t_bool		dir_type;
 }				t_op;
 
 typedef struct	s_data
@@ -119,9 +119,8 @@ typedef struct	s_data
 	int			binary_file_fd;
 	char		*name;
 	char		*comment;
-	int			size; //in bytes
+	int			size;
 	t_tokens	*tokens;
-	t_op		*op_tab;
 	int			line_nb;
 }				t_data;
 
@@ -137,7 +136,10 @@ t_tokens	*create_tokens(void);
 ** Parsing
 */
 
+char		*get_file(int ac, char **av);
 t_bool		get_head(t_data *data);
+t_bool		get_ongoing_name(char *name, char *line, t_nh_bln *check);
+t_bool		get_ongoing_comment(char *comment, char *line, t_nh_bln *check);
 t_tokens	*read_lines(t_data *data);
 t_bool		parsing(t_tokens *tok, int line_nb);
 t_bool		syntax_analysis(t_onet *onet, int line_nb);
@@ -165,6 +167,7 @@ void		write_line_code(t_tokens *tok, int fd);
 
 int			file_error(int ac, char **av);
 void		error_message(char *str, int line_nb);
+void		size_error_message(int max_size, char *type);
 
 /*
 ** Free
@@ -178,6 +181,11 @@ void		free_onet(t_onet *base);
 ** Global Variables
 */
 
-extern t_op op_tab[17];
+extern t_op	g_op_tab[17];
 
+/*
+** Autre
+*/
+
+void		verbose(t_data *data, int ac, char **av);
 #endif

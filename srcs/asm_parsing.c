@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/22 16:54:55 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/25 18:39:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static t_bool	get_command_type(t_tokens *tok, int *arg, int line_nb)
 	if (*arg == 1)
 		onet = onet->next;
 	i = 0;
-	while (op_tab[i].name != 0)
+	while (g_op_tab[i].name != 0)
 	{
-		if (ft_strcmp(onet->str, op_tab[i].name) == 0)
+		if (ft_strcmp(onet->str, g_op_tab[i].name) == 0)
 		{
 			tok->cmd = i;
 			onet->type = T_CMD;
@@ -32,14 +32,12 @@ static t_bool	get_command_type(t_tokens *tok, int *arg, int line_nb)
 		}
 		++i;
 	}
-	ft_putstr("ERROR: invalide command on line ");
-	ft_putnbr(line_nb);
-	ft_putchar('\n');
+	error_message("ERROR: invalde commande", line_nb);
 	tok->cmd = CMD_ERROR;
 	return (error);
 }
 
-static void		check_label(t_tokens *tok, int *arg)
+static t_bool	check_label(t_tokens *tok, int *arg)
 {
 	int		size;
 	t_onet	*onet;
@@ -53,7 +51,10 @@ static void		check_label(t_tokens *tok, int *arg)
 		onet->type = T_LAB;
 		tok->label = str;
 		*arg += 1;
+		if (onet->next == NULL)
+			return (false);
 	}
+	return (true);
 }
 
 static t_onet	*set_onet(t_tokens *tok, int arg)
@@ -75,9 +76,13 @@ t_bool			parsing(t_tokens *tok, int line_nb)
 	t_onet	*onet;
 
 	arg = 0;
-	check_label(tok, &arg);
+	write(1, "11\n", 3);
+	if (check_label(tok, &arg) == false)
+		return (true);
+	write(1, "12\n", 4);
 	if (get_command_type(tok, &arg, line_nb) == error)
 		return (error);
+	write(1, "13\n", 4);
 	onet = set_onet(tok, arg);
 	arg = 0;
 	while (onet != NULL)

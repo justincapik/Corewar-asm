@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 11:19:45 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 11:23:30 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/24 14:43:16 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_bool	set_register(t_onet *onet, int line_nb)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	onet->type = T_REG;
@@ -40,7 +40,7 @@ static t_bool	set_register(t_onet *onet, int line_nb)
 
 static t_bool	set_direct_nolabel(t_onet *onet, int line_nb)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	onet->type = T_DIR;
@@ -61,7 +61,7 @@ static t_bool	set_direct_nolabel(t_onet *onet, int line_nb)
 
 static t_bool	set_index_nolabel(t_onet *onet, int line_nb)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	onet->type = T_IND;
@@ -84,7 +84,7 @@ t_bool			syntax_analysis(t_onet *onet, int line_nb)
 {
 	if (onet->str == NULL || onet->str[0] == '\0'
 			|| (ft_strlen(onet->str) == 1 && !(onet->str[0] >= '0'
-			 && onet->str[0] <= '9')))
+					&& onet->str[0] <= '9')))
 	{
 		ft_putstr("ERROR: invalide parameter size on line ");
 		ft_putnbr(line_nb);
