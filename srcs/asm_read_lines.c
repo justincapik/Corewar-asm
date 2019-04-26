@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 16:32:00 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 15:08:00 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ static t_onet	*get_onet(char *line, int *i)
 		return (NULL);
 	}
 	j = 0;
+	if (line[*i + j] == DIRECT_CHAR || line[*i + j] == COMMENT_CHAR)
+		++j;
 	while (line[*i + j] != ' ' && line[*i + j] != '\t'
-			&& line[*i + j] != SEPARATOR_CHAR && line[*i + j] != '\0')
+			&& line[*i + j] != SEPARATOR_CHAR && line[*i + j] != '\0'
+			&& line[*i + j] != DIRECT_CHAR && line[*i + j] != COMMENT_CHAR)
 		++j;
 	onet->str = ft_strndup(line + *i, j);
 	*i += j;
@@ -94,8 +97,6 @@ t_tokens		*read_lines(t_data *data)
 	t_tokens	*cur;
 
 	line = NULL;
-	ft_putnbr(data->line_nb);
-	ft_putchar('\n');	
 	if ((base = get_base(data)) == NULL)
 		return (NULL);
 	cur = base;

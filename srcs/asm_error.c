@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:26:09 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 14:41:53 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 14:35:25 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		file_error(int ac, char **av)
 	{
 		write(1, "Usage: ", 7);
 		write(1, av[0], ft_strlen(av[0]));
-		write(1, " <sourcefile.s>\n", 16);
+		write(1, " [-v] <sourcefile.s>\n", 21);
 		return (-1);
 	}
 	return (0);

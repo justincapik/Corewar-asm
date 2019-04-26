@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 17:50:40 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 14:28:25 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 14:41:04 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_bool			write_file(t_data *data, char *filename)
 	tok = data->tokens;
 	while (tok != NULL)
 	{
-		write_line_code(tok, data->binary_file_fd);
+		if (tok->cmd != NONE)
+			write_line_code(tok, data->binary_file_fd);
 		tok = tok->next;
 	}
 	ft_putstr("Writing output program to ");

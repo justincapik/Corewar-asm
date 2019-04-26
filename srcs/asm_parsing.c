@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 18:39:00 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 14:33:03 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,10 @@ t_bool			parsing(t_tokens *tok, int line_nb)
 	t_onet	*onet;
 
 	arg = 0;
-	write(1, "11\n", 3);
 	if (check_label(tok, &arg) == false)
-		return (true);
-	write(1, "12\n", 4);
+		return (false);
 	if (get_command_type(tok, &arg, line_nb) == error)
 		return (error);
-	write(1, "13\n", 4);
 	onet = set_onet(tok, arg);
 	arg = 0;
 	while (onet != NULL)

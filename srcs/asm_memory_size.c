@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 14:08:32 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 14:49:57 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 14:37:41 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int			get_size_prog(t_tokens *base)
 	while (base != NULL)
 	{
 		base->mem_addr = size;
-		size += base->size;
+		if (base->cmd != NONE)
+			size += base->size;
 		base = base->next;
 	}
 	return (size);

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:51:59 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 10:04:11 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 14:29:48 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,15 @@ void			verbose(t_data *data, int ac, char **av)
 			ft_putstr(tok->label);
 		}
 		ft_putchar('\n');
-		ft_putstr(g_op_tab[tok->cmd].name);
-		if (ft_strlen(g_op_tab[tok->cmd].name) < 4)
+		if (tok->cmd != NONE)
+		{
+			ft_putstr(g_op_tab[tok->cmd].name);
+			if (ft_strlen(g_op_tab[tok->cmd].name) < 4)
+				ft_putchar('\t');
 			ft_putchar('\t');
-		ft_putchar('\t');
-		print_tokens(tok->allt->next);
-		ft_putstr("\n\n");
+			print_tokens(tok->allt->next);
+			ft_putstr("\n\n");
+		}
 		tok = tok->next;
 	}
 }
