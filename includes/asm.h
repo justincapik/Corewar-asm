@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 16:21:17 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/27 15:29:27 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define T_CMD			16
 # define T_NO_TYPE		32
 
+# define COMMENT_CHAR2	';'
 # define WRITE_BUFF		100
 
 typedef enum	e_boolean

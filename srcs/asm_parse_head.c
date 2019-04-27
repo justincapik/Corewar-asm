@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 14:31:56 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 18:18:43 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/26 16:25:29 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static t_bool		get_name(char *line, char *name, t_nh_bln *check)
 	int i;
 	int j;
 
-	i = ft_strlen(NAME_CMD_STRING);
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		++i;
+	i += ft_strlen(NAME_CMD_STRING);
 	while (line[i] == ' ' || line[i] == '\t')
 		++i;
 	if (line[i] != '\"')
@@ -44,7 +47,10 @@ static t_bool		get_comment(char *line, char *comment, t_nh_bln *check)
 	int i;
 	int j;
 
-	i = ft_strlen(COMMENT_CMD_STRING);
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		++i;
+	i += ft_strlen(COMMENT_CMD_STRING);
 	while (line[i] == ' ' || line[i] == '\t')
 		++i;
 	if (line[i] != '\"')

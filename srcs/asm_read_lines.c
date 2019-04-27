@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 15:08:00 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/27 15:30:56 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@ static t_onet	*get_onet(char *line, int *i)
 		return (NULL);
 	while ((line[*i] == ' ' || line[*i] == '\t') && line[*i] != '\0')
 		++(*i);
-	if (line[*i] == '\0' || line[*i] == COMMENT_CHAR)
+	if (line[*i] == '\0' || line[*i] == COMMENT_CHAR
+			|| line[*i] == COMMENT_CHAR2)
 	{
 		free_onet(onet);
 		return (NULL);
 	}
 	j = 0;
-	if (line[*i + j] == DIRECT_CHAR || line[*i + j] == COMMENT_CHAR)
+	if (line[*i + j] == DIRECT_CHAR || line[*i + j] == COMMENT_CHAR
+			|| line[*i + j] == COMMENT_CHAR2)
 		++j;
 	while (line[*i + j] != ' ' && line[*i + j] != '\t'
 			&& line[*i + j] != SEPARATOR_CHAR && line[*i + j] != '\0'
-			&& line[*i + j] != DIRECT_CHAR && line[*i + j] != COMMENT_CHAR)
+			&& line[*i + j] != DIRECT_CHAR && line[*i + j] != COMMENT_CHAR
+			&& line[*i + j] != COMMENT_CHAR2)
 		++j;
 	onet->str = ft_strndup(line + *i, j);
 	*i += j;
