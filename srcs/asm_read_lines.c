@@ -6,11 +6,27 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/27 15:30:56 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 16:13:53 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+static int		get_onet_helper(char *line, int *i)
+{
+	int		j;
+
+	j = 0;
+	if (line[*i + j] == DIRECT_CHAR || line[*i + j] == COMMENT_CHAR
+			|| line[*i + j] == COMMENT_CHAR2)
+		++j;
+	while (line[*i + j] != ' ' && line[*i + j] != '\t'
+			&& line[*i + j] != SEPARATOR_CHAR && line[*i + j] != '\0'
+			&& line[*i + j] != DIRECT_CHAR && line[*i + j] != COMMENT_CHAR
+			&& line[*i + j] != COMMENT_CHAR2)
+		++j;
+	return (j);
+}
 
 static t_onet	*get_onet(char *line, int *i)
 {
@@ -27,19 +43,12 @@ static t_onet	*get_onet(char *line, int *i)
 		free_onet(onet);
 		return (NULL);
 	}
-	j = 0;
-	if (line[*i + j] == DIRECT_CHAR || line[*i + j] == COMMENT_CHAR
-			|| line[*i + j] == COMMENT_CHAR2)
-		++j;
-	while (line[*i + j] != ' ' && line[*i + j] != '\t'
-			&& line[*i + j] != SEPARATOR_CHAR && line[*i + j] != '\0'
-			&& line[*i + j] != DIRECT_CHAR && line[*i + j] != COMMENT_CHAR
-			&& line[*i + j] != COMMENT_CHAR2)
-		++j;
+	j = get_onet_helper(line, i);
 	onet->str = ft_strndup(line + *i, j);
 	*i += j;
 	while ((line[*i] == ' ' || line[*i] == '\t') && line[*i] != '\0')
 		++(*i);
+	onet->sep_after = (line[*i] == SEPARATOR_CHAR) ? true : false;
 	*i += ((line[*i] == SEPARATOR_CHAR) ? 1 : 0);
 	return (onet);
 }

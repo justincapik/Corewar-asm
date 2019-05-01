@@ -6,11 +6,29 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 11:15:00 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 16:28:36 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/04/29 13:43:09 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+t_bool		return_head_value(t_nh_bln check)
+{
+	if (check == DONE)
+		return (true);
+	if (check == COMMENT)
+	{
+		ft_putstr("ERROR: no name line\n");
+		return (false);
+	}
+	if (check == NAME)
+	{
+		ft_putstr("ERROR: no comment line\n");
+		return (false);
+	}
+	ft_putstr("ERROR: no comment or name line\n");
+	return (false);
+}
 
 t_bool		get_ongoing_name(char *name, char *line, t_nh_bln *check)
 {

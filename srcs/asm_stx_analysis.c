@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 11:19:45 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 14:51:25 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 15:23:07 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ t_bool			syntax_analysis(t_onet *onet, int line_nb)
 {
 	if (onet->str == NULL || onet->str[0] == '\0'
 			|| (ft_strlen(onet->str) == 1 && !(onet->str[0] >= '0'
-					&& onet->str[0] <= '9')))
+					&& onet->str[0] <= '9'))
+			|| (onet->next == NULL && onet->sep_after == true)
+			|| (onet->next != NULL && onet->sep_after == false))
 	{
 		ft_putstr("ERROR: invalide parameter on line ");
 		ft_putnbr(line_nb);

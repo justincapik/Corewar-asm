@@ -6,13 +6,13 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 14:52:17 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 15:46:09 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char	*get_file(int ac, char **av)
+char			*get_file(int ac, char **av)
 {
 	char	*str;
 	int		size;
@@ -30,7 +30,25 @@ char	*get_file(int ac, char **av)
 	return (str);
 }
 
-int		main(int ac, char **av)
+static int		main_helper(int ac, char **av, t_data *data)
+{
+	data->size = get_size_prog(data->tokens);
+	if (connect_labels(data->tokens) != true)
+	{
+		free_data(data);
+		return (-1);
+	}
+	if (write_file(data, get_file(ac, av)) == error)
+	{
+		free_data(data);
+		return (-1);
+	}
+	verbose(data, ac, av);
+	free_data(data);
+	return (0);
+}
+
+int				main(int ac, char **av)
 {
 	t_data		*data;
 
@@ -48,18 +66,5 @@ int		main(int ac, char **av)
 		free_data(data);
 		return (-1);
 	}
-	data->size = get_size_prog(data->tokens);
-	if (connect_labels(data->tokens) != true)
-	{
-		free_data(data);
-		return (-1);
-	}
-	if (write_file(data, get_file(ac, av)) == error)
-	{
-		free_data(data);
-		return (-1);
-	}
-	verbose(data, ac, av);
-	free_data(data);
-	return (0);
+	return (main_helper(ac, av, data));
 }

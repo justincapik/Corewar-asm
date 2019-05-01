@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 14:33:03 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 15:56:20 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ static t_bool	get_command_type(t_tokens *tok, int *arg, int line_nb)
 	onet = tok->allt;
 	if (*arg == 1)
 		onet = onet->next;
+	if (onet->sep_after == true)
+	{
+		error_message("ERROR: invalde separator after command", line_nb);
+		return (error);
+	}
 	i = 0;
 	while (g_op_tab[i].name != 0)
 	{
@@ -33,11 +38,10 @@ static t_bool	get_command_type(t_tokens *tok, int *arg, int line_nb)
 		++i;
 	}
 	error_message("ERROR: invalde commande", line_nb);
-	tok->cmd = CMD_ERROR;
 	return (error);
 }
 
-static t_bool	check_label(t_tokens *tok, int *arg)
+static t_bool	check_label(t_tokens *tok, int *arg, int line_nb)
 {
 	int		size;
 	t_onet	*onet;
@@ -51,6 +55,11 @@ static t_bool	check_label(t_tokens *tok, int *arg)
 		onet->type = T_LAB;
 		tok->label = str;
 		*arg += 1;
+		if (onet->sep_after == true)
+		{
+			error_message("ERROR: invalid separator after label", line_nb);
+			return (error);
+		}
 		if (onet->next == NULL)
 			return (false);
 	}
@@ -74,10 +83,13 @@ t_bool			parsing(t_tokens *tok, int line_nb)
 {
 	int		arg;
 	t_onet	*onet;
+	t_bool	res;
 
 	arg = 0;
-	if (check_label(tok, &arg) == false)
+	if ((res = check_label(tok, &arg, line_nb)) == false)
 		return (false);
+	else if (res == error)
+		return (error);
 	if (get_command_type(tok, &arg, line_nb) == error)
 		return (error);
 	onet = set_onet(tok, arg);

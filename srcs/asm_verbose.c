@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:51:59 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 14:29:48 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 16:07:32 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,22 @@ static void		print_tokens(t_onet *onet)
 		ft_putnbr(onet->val);
 		ft_putchar('\t');
 		onet = onet->next;
-	}//TODO add tabultions according to label size
+	}
+}
+
+static void		print_cmd(t_tokens *tok)
+{
+	ft_putstr(g_op_tab[tok->cmd].name);
+	if (ft_strlen(g_op_tab[tok->cmd].name) < 4)
+		ft_putchar('\t');
+	ft_putchar('\t');
+	print_tokens(tok->allt->next);
+	ft_putstr("\n\n");
 }
 
 void			verbose(t_data *data, int ac, char **av)
 {
-	t_tokens    *tok;
+	t_tokens	*tok;
 
 	if (check_verbose(ac, av) == false)
 		return ;
@@ -87,14 +97,7 @@ void			verbose(t_data *data, int ac, char **av)
 		}
 		ft_putchar('\n');
 		if (tok->cmd != NONE)
-		{
-			ft_putstr(g_op_tab[tok->cmd].name);
-			if (ft_strlen(g_op_tab[tok->cmd].name) < 4)
-				ft_putchar('\t');
-			ft_putchar('\t');
-			print_tokens(tok->allt->next);
-			ft_putstr("\n\n");
-		}
+			print_cmd(tok);
 		tok = tok->next;
 	}
 }

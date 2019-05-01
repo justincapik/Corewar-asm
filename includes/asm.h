@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/27 15:29:27 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 15:53:36 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,26 @@
 # define COMMENT_CHAR2	';'
 # define WRITE_BUFF		100
 
-typedef enum	e_boolean
+typedef enum				e_boolean
 {
 	false = 0,
 	true = 1,
 	error = -1
-}				t_bool;
+}							t_bool;
 
-typedef enum	e_name_or_header_boolean
+typedef enum				e_name_or_header_boolean
 {
-	NOTHING,
-	ONGOING_NAME,
-	ONGOING_NAME_CD,
-	NAME,
-	ONGOING_COMMENT,
-	ONGOING_COMMENT_ND,
-	COMMENT,
-	DONE
-}				t_nh_bln;
+	NOTHING = 0,
+	ONGOING_NAME = 1,
+	ONGOING_NAME_CD = 2,
+	NAME = 3,
+	ONGOING_COMMENT = 4,
+	ONGOING_COMMENT_ND = 5,
+	COMMENT = 6,
+	DONE = 7
+}							t_nh_bln;
 
-typedef enum	e_command_type
+typedef enum				e_command_type
 {
 	CMD_ERROR = -2,
 	NONE = -1,
@@ -63,24 +63,24 @@ typedef enum	e_command_type
 	LLDI = 13,
 	LFORK = 14,
 	AFF = 15
-}				t_cmd_type;
+}							t_cmd_type;
 
-typedef union	u_big_edian_conv_4_bytes
+typedef union				u_big_edian_conv_4_bytes
 {
 	char	oct[4];
 	int		nb;
-}				t_bec4;
+}							t_bec4;
 
-typedef union	u_big_edian_conv_2_bytes
+typedef union				u_big_edian_conv_2_bytes
 {
 	char	oct[2];
 	int		nb;
-}				t_bec2;
+}							t_bec2;
 
 typedef struct s_one_token	t_onet;
 
-typedef struct s_tokens	t_tokens;
-struct			s_tokens
+typedef struct s_tokens		t_tokens;
+struct						s_tokens
 {
 	t_cmd_type	cmd;
 	int			size;
@@ -91,18 +91,19 @@ struct			s_tokens
 	t_tokens	*next;
 };
 
-typedef int		t_var_type;
+typedef int					t_var_type;
 
-struct			s_one_token
+struct						s_one_token
 {
 	t_var_type	type;
 	char		*str;
 	int			val;
 	t_tokens	*ptr_to_label;
+	t_bool		sep_after;
 	t_onet		*next;
 };
 
-typedef struct	s_op
+typedef struct				s_op
 {
 	char		*name;
 	int			nb_arg;
@@ -112,9 +113,9 @@ typedef struct	s_op
 	char		*comment;
 	t_bool		ocp;
 	t_bool		dir_type;
-}				t_op;
+}							t_op;
 
-typedef struct	s_data
+typedef struct				s_data
 {
 	int			code_file_fd;
 	int			binary_file_fd;
@@ -123,70 +124,74 @@ typedef struct	s_data
 	int			size;
 	t_tokens	*tokens;
 	int			line_nb;
-}				t_data;
+}							t_data;
 
 /*
 ** Initialization
 */
 
-t_onet		*create_onet(void);
-t_data		*create_data(int ac, char **av);
-t_tokens	*create_tokens(void);
+t_onet						*create_onet(void);
+t_data						*create_data(int ac, char **av);
+t_tokens					*create_tokens(void);
 
 /*
 ** Parsing
 */
 
-char		*get_file(int ac, char **av);
-t_bool		get_head(t_data *data);
-t_bool		get_ongoing_name(char *name, char *line, t_nh_bln *check);
-t_bool		get_ongoing_comment(char *comment, char *line, t_nh_bln *check);
-t_tokens	*read_lines(t_data *data);
-t_bool		parsing(t_tokens *tok, int line_nb);
-t_bool		syntax_analysis(t_onet *onet, int line_nb);
-t_bool		set_index_label(t_onet *onet, int line_nb);
-t_bool		set_direct_label(t_onet *onet, int line_nb);
-t_bool		connect_labels(t_tokens *base);
-t_bool		check_errors(t_tokens *tok, int arg, int line_nb);
+char						*get_file(int ac, char **av);
+t_bool						get_head(t_data *data);
+t_bool						get_ongoing_name(char *name,
+		char *line, t_nh_bln *check);
+t_bool						get_ongoing_comment(char *comment,
+		char *line, t_nh_bln *check);
+t_tokens					*read_lines(t_data *data);
+t_bool						parsing(t_tokens *tok, int line_nb);
+t_bool						syntax_analysis(t_onet *onet, int line_nb);
+t_bool						set_index_label(t_onet *onet, int line_nb);
+t_bool						set_direct_label(t_onet *onet, int line_nb);
+t_bool						connect_labels(t_tokens *base);
+t_bool						check_errors(t_tokens *tok, int arg, int line_nb);
+t_bool						return_head_value(t_nh_bln check);
 
 /*
 ** Writing
 */
 
-void		get_token_size(t_tokens *tok);
-int			get_size_prog(t_tokens *base);
-t_bool		write_file(t_data *data, char *filename);
-void		write_header(t_data *data);
-void		write_int(int nb, int fd);
-void		write_int_2b(int nb, int fd);
-void		write_int_1b(int nb, int fd);
-void		write_line_code(t_tokens *tok, int fd);
+void						get_token_size(t_tokens *tok);
+int							get_size_prog(t_tokens *base);
+t_bool						write_file(t_data *data, char *filename);
+void						write_header(t_data *data);
+void						write_int(int nb, int fd);
+void						write_int_2b(int nb, int fd);
+void						write_int_1b(int nb, int fd);
+void						write_line_code(t_tokens *tok, int fd);
 
 /*
 ** Errors
 */
 
-int			file_error(int ac, char **av);
-void		error_message(char *str, int line_nb);
-void		size_error_message(int max_size, char *type);
+int							file_error(int ac, char **av);
+void						error_message(char *str, int line_nb);
+void						size_error_message(int max_size, char *type);
 
 /*
 ** Free
 */
 
-void		free_data(t_data *data);
-void		free_tokens(t_tokens *t);
-void		free_onet(t_onet *base);
+void						free_data(t_data *data);
+void						free_tokens(t_tokens *t);
+void						free_onet(t_onet *base);
 
 /*
 ** Global Variables
 */
 
-extern t_op	g_op_tab[17];
+extern t_op					g_op_tab[17];
 
 /*
 ** Autre
 */
 
-void		verbose(t_data *data, int ac, char **av);
+void						verbose(t_data *data, int ac, char **av);
+
 #endif

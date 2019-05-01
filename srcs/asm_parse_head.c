@@ -6,20 +6,16 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 14:31:56 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 16:25:29 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 16:06:55 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static t_bool		get_name(char *line, char *name, t_nh_bln *check)
+static t_bool		get_name(char *line, char *name, t_nh_bln *check, int i)
 {
-	int i;
 	int j;
 
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		++i;
 	i += ft_strlen(NAME_CMD_STRING);
 	while (line[i] == ' ' || line[i] == '\t')
 		++i;
@@ -38,18 +34,15 @@ static t_bool		get_name(char *line, char *name, t_nh_bln *check)
 		name[j] = '\n';
 	}
 	else
-		*check = (*check == NOTHING) ? NAME : DONE;
+		*check = (*check == NOTHING || *check == ONGOING_NAME) ? NAME : DONE;
 	return (true);
 }
 
-static t_bool		get_comment(char *line, char *comment, t_nh_bln *check)
+static t_bool		get_comment(char *line, char *comment, t_nh_bln *check,
+		int i)
 {
-	int i;
 	int j;
 
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-		++i;
 	i += ft_strlen(COMMENT_CMD_STRING);
 	while (line[i] == ' ' || line[i] == '\t')
 		++i;
@@ -68,7 +61,8 @@ static t_bool		get_comment(char *line, char *comment, t_nh_bln *check)
 		comment[j] = '\n';
 	}
 	else
-		*check = (*check == NOTHING) ? COMMENT : DONE;
+		*check = (*check == NOTHING || *check == ONGOING_COMMENT) ?
+			COMMENT : DONE;
 	return (true);
 }
 
@@ -81,7 +75,7 @@ static t_bool		check_to_get_both(char *line, t_data *data, t_nh_bln *check)
 		++i;
 	if (ft_strncmp(line + i, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)) == 0)
 	{
-		if (*check == NAME || get_name(line, data->name, check) == false)
+		if (*check == NAME || get_name(line, data->name, check, i) == false)
 		{
 			size_error_message(PROG_NAME_LENGTH, "name");
 			return (false);
@@ -91,7 +85,7 @@ static t_bool		check_to_get_both(char *line, t_data *data, t_nh_bln *check)
 				COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)) == 0)
 	{
 		if (*check == COMMENT
-				|| get_comment(line, data->comment, check) == false)
+				|| get_comment(line, data->comment, check, i) == false)
 		{
 			size_error_message(PROG_NAME_LENGTH, "comment");
 			return (false);
@@ -100,22 +94,22 @@ static t_bool		check_to_get_both(char *line, t_data *data, t_nh_bln *check)
 	return (true);
 }
 
-static t_bool		return_value(t_nh_bln check)
+static t_bool		check_function_to_call(char *line, t_data *data,
+		t_nh_bln *check)
 {
-	if (check == DONE)
-		return (true);
-	if (check == COMMENT)
+	if (*check == ONGOING_NAME || *check == ONGOING_NAME_CD)
 	{
-		ft_putstr("ERROR: no name line\n");
-		return (false);
+		if (get_ongoing_name(data->name, line, check) == false)
+			return (false);
 	}
-	if (check == NAME)
+	else if (*check == ONGOING_COMMENT || *check == ONGOING_COMMENT_ND)
 	{
-		ft_putstr("ERROR: no comment line\n");
-		return (false);
+		if (get_ongoing_comment(data->comment, line, check) == false)
+			return (false);
 	}
-	ft_putstr("ERROR: no comment or name line\n");
-	return (false);
+	else if (check_to_get_both(line, data, check) == false)
+		return (false);
+	return (true);
 }
 
 t_bool				get_head(t_data *data)
@@ -127,11 +121,7 @@ t_bool				get_head(t_data *data)
 	check = NOTHING;
 	while (check != DONE && get_next_line(data->code_file_fd, &line) != 0)
 	{
-		if (((check == ONGOING_NAME || check == ONGOING_NAME_CD)
-				&& (get_ongoing_name(data->name, line, &check) == false))
-				|| ((check == ONGOING_COMMENT || check == ONGOING_COMMENT_ND)
-				&& (get_ongoing_comment(data->comment, line, &check) == false))
-				|| check_to_get_both(line, data, &check) == false)
+		if (check_function_to_call(line, data, &check) == false)
 		{
 			free(line);
 			return (false);
@@ -140,5 +130,5 @@ t_bool				get_head(t_data *data)
 		++(data->line_nb);
 	}
 	++(data->line_nb);
-	return (return_value(check));
+	return (return_head_value(check));
 }

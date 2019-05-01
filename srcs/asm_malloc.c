@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:16:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/25 09:01:54 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/01 15:07:12 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_onet			*create_onet(void)
 
 	if ((o = (t_onet *)malloc(sizeof(t_onet))) == NULL)
 		return (NULL);
+	o->sep_after = error;
 	o->type = T_NO_TYPE;
 	o->next = NULL;
 	o->str = NULL;
