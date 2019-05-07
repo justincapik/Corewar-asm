@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:16:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:07:12 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 14:02:23 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,13 @@ static t_data	*create_data_helper(t_data *data, int ac, char **av)
 
 	if ((name = get_file(ac, av)) == NULL)
 	{
-		write(1, "ERROR: invalid file name\n",
-				ft_strlen("ERROR: invalid file name\n"));
+		ft_putstr_fd("ERROR: invalid file name\n", 2);
 		free_data(data);
 		return (NULL);
 	}
 	if ((data->code_file_fd = open(name, O_RDONLY)) <= -1)
 	{
-		write(1, "ERROR: failed to open file\n",
-				ft_strlen("Error, failed to open file\n"));
+		ft_putstr_fd("ERROR: failed to open file\n", 2);
 		free_data(data);
 		return (NULL);
 	}

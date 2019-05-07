@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 15:45:37 by jucapik           #+#    #+#             */
-/*   Updated: 2018/11/21 10:10:35 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 14:39:05 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	if ((res = (char *)malloc(sizeof(char) *
-					(ft_strlen(s1) + ft_strlen(s2) + 1))) == NULL)
+	if ((res = (char *)malloc(sizeof(char)
+					* (ft_strlen(s1) + ft_strlen(s2) + 1))) == NULL)
 		return (NULL);
 	i = 0;
 	while (s1[i] && i < n)

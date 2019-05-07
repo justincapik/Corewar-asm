@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:23:06 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:53:36 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:33:07 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ void						write_line_code(t_tokens *tok, int fd);
 int							file_error(int ac, char **av);
 void						error_message(char *str, int line_nb);
 void						size_error_message(int max_size, char *type);
+t_bool						gnl_error_bool(void);
+t_tokens					*gnl_error_null(t_tokens *tok);
 
 /*
 ** Free

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 11:19:45 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:23:07 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 13:56:59 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,18 @@ static t_bool	set_register(t_onet *onet, int line_nb)
 
 	i = 0;
 	onet->type = T_REG;
-	onet->val = ft_atoi((onet->str) + (++i));
+	++i;
+	onet->val = ft_atoi((onet->str) + i);
 	while (onet->str[i] >= '0' && onet->str[i] <= '9')
 		++i;
 	if (onet->str[i] != '\0')
 	{
-		ft_putstr("ERROR: invalide register paramater on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide register paramater", line_nb);
 		return (error);
 	}
 	if (onet->val < 1 || onet->val > REG_NUMBER)
 	{
-		ft_putstr("ERROR: invalide register number on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide register number", line_nb);
 		return (error);
 	}
 	return (true);
@@ -44,16 +41,15 @@ static t_bool	set_direct_nolabel(t_onet *onet, int line_nb)
 
 	i = 0;
 	onet->type = T_DIR;
-	onet->val = ft_atoi((onet->str) + (++i));
+	++i;
+	onet->val = ft_atoi((onet->str) + i);
 	if (onet->str[i] == '-' || onet->str[i] == '+')
 		++i;
 	while (onet->str[i] >= '0' && onet->str[i] <= '9')
 		++i;
 	if (onet->str[i] != '\0')
 	{
-		ft_putstr("ERROR: invalide direct number on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide direct number", line_nb);
 		return (error);
 	}
 	return (true);
@@ -72,9 +68,7 @@ static t_bool	set_index_nolabel(t_onet *onet, int line_nb)
 		++i;
 	if (onet->str[i] != '\0')
 	{
-		ft_putstr("ERROR: invalide index number on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide index number", line_nb);
 		return (error);
 	}
 	return (true);
@@ -83,14 +77,12 @@ static t_bool	set_index_nolabel(t_onet *onet, int line_nb)
 t_bool			syntax_analysis(t_onet *onet, int line_nb)
 {
 	if (onet->str == NULL || onet->str[0] == '\0'
-			|| (ft_strlen(onet->str) == 1 && !(onet->str[0] >= '0'
+			|| ((int)ft_strlen(onet->str) == 1 && !(onet->str[0] >= '0'
 					&& onet->str[0] <= '9'))
 			|| (onet->next == NULL && onet->sep_after == true)
 			|| (onet->next != NULL && onet->sep_after == false))
 	{
-		ft_putstr("ERROR: invalide parameter on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide parameter", line_nb);
 		return (error);
 	}
 	if (onet->str[0] == 'r')
@@ -103,8 +95,6 @@ t_bool			syntax_analysis(t_onet *onet, int line_nb)
 		return (set_index_label(onet, line_nb));
 	else if (onet->str[0] == DIRECT_CHAR && onet->str[1] == LABEL_CHAR)
 		return (set_direct_label(onet, line_nb));
-	ft_putstr("ERROR: invalide parameter on line ");
-	ft_putnbr(line_nb);
-	ft_putchar('\n');
+	error_message("ERROR: invalide parameter", line_nb);
 	return (error);
 }

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 13:38:19 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 16:13:53 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:45:42 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,26 @@ static t_tokens	*get_base(t_data *data)
 {
 	char		*line;
 	t_tokens	*base;
+	int			res;
 
 	line = NULL;
 	base = NULL;
 	while (base == NULL
-			&& get_next_line(data->code_file_fd, &line) != 0)
+			&& (res = get_next_line(data->code_file_fd, &line)) > 0)
 	{
 		if ((base = tokenize(line)) != NULL)
 		{
 			if (parsing(base, data->line_nb) == error)
 			{
 				free_tokens(base);
-				free(line);
+				ft_strdel(&line);
 				return (NULL);
 			}
 		}
-		free(line);
+		ft_strdel(&line);
 		++(data->line_nb);
 	}
-	return (base);
+	return ((res < 0) ? gnl_error_null(base) : base);
 }
 
 t_tokens		*read_lines(t_data *data)
@@ -107,25 +108,26 @@ t_tokens		*read_lines(t_data *data)
 	char		*line;
 	t_tokens	*base;
 	t_tokens	*cur;
+	int			res;
 
 	line = NULL;
 	if ((base = get_base(data)) == NULL)
 		return (NULL);
 	cur = base;
-	while (get_next_line(data->code_file_fd, &line) != 0)
+	while ((res = get_next_line(data->code_file_fd, &line)) > 0)
 	{
 		if ((cur->next = tokenize(line)) != NULL)
 		{
 			if (parsing(cur->next, data->line_nb) == error)
 			{
 				free_tokens(base);
-				free(line);
+				ft_strdel(&line);
 				return (NULL);
 			}
 			cur = cur->next;
 		}
-		free(line);
+		ft_strdel(&line);
 		++(data->line_nb);
 	}
-	return (base);
+	return ((res < 0) ? gnl_error_null(base) : base);
 }

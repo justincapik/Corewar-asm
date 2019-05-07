@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:51:59 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 16:07:32 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:40:11 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void		print_tokens(t_onet *onet)
 static void		print_cmd(t_tokens *tok)
 {
 	ft_putstr(g_op_tab[tok->cmd].name);
-	if (ft_strlen(g_op_tab[tok->cmd].name) < 4)
+	if ((int)ft_strlen(g_op_tab[tok->cmd].name) < 4)
 		ft_putchar('\t');
 	ft_putchar('\t');
 	print_tokens(tok->allt->next);

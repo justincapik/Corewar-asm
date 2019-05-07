@@ -11,4 +11,6 @@ rm og_res
 touch og_res
 find . -name "*.cor" -exec hexdump {} \; >> og_res
 cat error_file | grep "blocks" | grep "e" | grep "d" | grep "y" | grep -v "supp"
+echo "Result from diff:"
 diff og_res my_res
+echo "End of diff"

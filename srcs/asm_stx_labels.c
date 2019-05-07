@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:25:14 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/24 14:36:45 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 13:58:26 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ t_bool			set_index_label(t_onet *onet, int line_nb)
 		++i;
 	if (onet->str[i] != '\0')
 	{
-		ft_putstr("ERROR: invalide index label on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide index label", line_nb);
 		return (error);
 	}
 	return (true);
@@ -45,9 +43,7 @@ t_bool			set_direct_label(t_onet *onet, int line_nb)
 		++i;
 	if (onet->str[i] != '\0')
 	{
-		ft_putstr("ERROR: invalide direct label on line ");
-		ft_putnbr(line_nb);
-		ft_putchar('\n');
+		error_message("ERROR: invalide direct label", line_nb);
 		return (error);
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 11:15:00 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/29 13:43:09 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 13:54:13 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ t_bool		return_head_value(t_nh_bln check)
 		return (true);
 	if (check == COMMENT)
 	{
-		ft_putstr("ERROR: no name line\n");
+		ft_putstr_fd("ERROR: no name line\n", 2);
 		return (false);
 	}
 	if (check == NAME)
 	{
-		ft_putstr("ERROR: no comment line\n");
+		ft_putstr_fd("ERROR: no comment line\n", 2);
 		return (false);
 	}
-	ft_putstr("ERROR: no comment or name line\n");
+	ft_putstr_fd("ERROR: no comment or name line\n", 2);
 	return (false);
 }
 
@@ -38,7 +38,7 @@ t_bool		get_ongoing_name(char *name, char *line, t_nh_bln *check)
 	i = 0;
 	while (line[i] != '\0' && line[i] != '\"')
 		++i;
-	size = ft_strlen(name);
+	size = (int)ft_strlen(name);
 	if (size + i > PROG_NAME_LENGTH || (size + i == PROG_NAME_LENGTH
 				&& line[i] == '\0'))
 	{
@@ -61,7 +61,7 @@ t_bool		get_ongoing_comment(char *comment, char *line, t_nh_bln *check)
 	i = 0;
 	while (line[i] != '\0' && line[i] != '\"')
 		++i;
-	size = ft_strlen(comment);
+	size = (int)ft_strlen(comment);
 	if (size + i > COMMENT_LENGTH || (size + i == COMMENT_LENGTH
 				&& line[i] == '\0'))
 	{

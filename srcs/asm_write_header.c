@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 13:45:16 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/23 15:43:41 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:40:34 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	write_name(char *name, int fd)
 	int		i;
 	char	c;
 
-	size = ft_strlen(name);
+	size = (int)ft_strlen(name);
 	write(fd, name, size);
 	c = 0;
 	i = size;
@@ -36,7 +36,7 @@ static void	write_comment(char *comment, int fd)
 	int		i;
 	char	c;
 
-	size = ft_strlen(comment);
+	size = (int)ft_strlen(comment);
 	write(fd, comment, size);
 	c = 0;
 	i = size;

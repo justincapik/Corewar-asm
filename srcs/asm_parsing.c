@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 13:39:38 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:56:20 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:39:33 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_bool	check_label(t_tokens *tok, int *arg, int line_nb)
 
 	onet = tok->allt;
 	str = onet->str;
-	size = ft_strlen(str);
+	size = (int)ft_strlen(str);
 	if (str[size - 1] == LABEL_CHAR)
 	{
 		onet->type = T_LAB;

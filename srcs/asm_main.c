@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 17:21:27 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:46:09 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 11:37:39 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char			*get_file(int ac, char **av)
 	str = NULL;
 	while (i < ac)
 	{
-		size = ft_strlen(av[i]);
+		size = (int)ft_strlen(av[i]);
 		if (av[i][size - 1] == 's' && av[i][size - 2] == '.')
 			str = av[i];
 		++i;

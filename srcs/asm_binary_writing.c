@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 17:50:40 by jucapik           #+#    #+#             */
-/*   Updated: 2019/04/26 14:41:04 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 13:50:03 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char		*create_file(t_data *data, char *filename)
 	char		*bnryname;
 	int			size;
 
-	size = ft_strlen(filename) + 2;
+	size = (int)ft_strlen(filename) + 2;
 	bnryname = ft_strnew(size);
 	bnryname = ft_strcpy(bnryname, filename);
 	bnryname[size - 1] = 'r';
@@ -26,8 +26,8 @@ static char		*create_file(t_data *data, char *filename)
 	if ((data->binary_file_fd = open(bnryname,
 					O_CREAT | O_TRUNC | O_WRONLY, 0644)) < 0)
 	{
-		ft_putendl("ERROR: failed to create .cor file");
-		free(bnryname);
+		ft_putendl_fd("ERROR: failed to create .cor file", 2);
+		ft_strdel(&bnryname);
 		return (NULL);
 	}
 	return (bnryname);
@@ -50,6 +50,6 @@ t_bool			write_file(t_data *data, char *filename)
 	}
 	ft_putstr("Writing output program to ");
 	ft_putendl(bnryname);
-	free(bnryname);
+	ft_strdel(&bnryname);
 	return (true);
 }

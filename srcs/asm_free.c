@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 13:31:29 by jucapik           #+#    #+#             */
-/*   Updated: 2019/05/01 15:03:05 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 12:59:25 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void		free_onet(t_onet *base)
 	{
 		tmp = base->next;
 		if (base->str != NULL)
-			free(base->str);
-		free(base);
+			ft_strdel(&(base->str));
+		ft_memdel((void**)&base);
 		base = tmp;
 	}
 }
@@ -36,7 +36,7 @@ void		free_tokens(t_tokens *base)
 		cur = base->next;
 		if (base->allt != NULL)
 			free_onet(base->allt);
-		free(base);
+		ft_memdel((void**)&base);
 		base = cur;
 	}
 }
@@ -46,11 +46,11 @@ void		free_data(t_data *data)
 	if (data != NULL)
 	{
 		if (data->name != NULL)
-			free(data->name);
+			ft_strdel(&data->name);
 		if (data->comment != NULL)
-			free(data->comment);
+			ft_strdel(&data->comment);
 		if (data->tokens != NULL)
 			free_tokens(data->tokens);
-		free(data);
+		ft_memdel((void **)&data);
 	}
 }

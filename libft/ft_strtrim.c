@@ -6,7 +6,7 @@
 /*   By: jucapik <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 16:03:21 by jucapik           #+#    #+#             */
-/*   Updated: 2019/01/30 13:46:00 by jucapik          ###   ########.fr       */
+/*   Updated: 2019/05/07 14:39:26 by jucapik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_strtrim(char const *s)
 		str[0] = '\0';
 		return (str);
 	}
-	while ((s[end - 1] == ' ' || s[end - 1] == '\n' ||
-				s[end - 1] == '\t') && end > 0)
+	while ((s[end - 1] == ' ' || s[end - 1] == '\n'
+				|| s[end - 1] == '\t') && end > 0)
 		--end;
 	return (ft_strsub(s, start, end - start));
 }
